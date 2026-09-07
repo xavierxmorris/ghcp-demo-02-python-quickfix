@@ -49,6 +49,15 @@ pytest          # see what's currently passing / failing
 You should see **2 failing tests** in `tests/test_orders.py`. Don't fix them yet —
 let Copilot do it.
 
+CI uses `python -m pytest -q -rxX --starter-baseline` on Python 3.10 and 3.14.
+That opt-in flag marks only the two documented defects as strict expected
+failures, with their expected exception types. A separate starter-only assertion
+also requires the exact known wrong total, so a different regression cannot hide
+behind an expected failure. Other failures, missing cases, and unexpected passes
+still fail CI. Normal `pytest` retains the desired behavior assertions. After
+fixing the exercise, remove `--starter-baseline` from CI and require ordinary
+pytest to pass; do not weaken the pricing expectations.
+
 ---
 
 ## Walkthrough
