@@ -7,8 +7,19 @@
 > **Time:** ~20 minutes
 
 Demo 01 showed you ghost-text completions. Now you'll learn the **conversational**
-side of Copilot — Chat. Same model, different UX, and far more useful for
+side of Copilot — Chat. A different interaction pattern, useful for
 **understanding existing code**, **fixing bugs**, and **generating tests**.
+
+**Go deeper:** [WORKSHOP.md](WORKSHOP.md) includes a root-cause exercise,
+a promo-code decision table, deterministic date cases, and a review rubric.
+The pricing bugs are intentionally left in the starter.
+
+**Editor compatibility:** checked against the current VS Code documentation on
+**7 September 2026**. Use the `/` picker to discover commands available in your
+session. `/doc` is documented for editor inline chat. If a command or an older
+`@workspace` example is unavailable, attach the named files with **Add Context**
+and use the equivalent natural-language request. Arbitrary slash names are not
+automatically registered commands.
 
 ---
 
@@ -74,8 +85,9 @@ FAILED tests/test_orders.py::test_calculate_total_handles_empty_cart
 3. Review the proposed diff. Click **Apply in Editor**.
 4. Re-run `pytest`.
 
-✅ **Expected:** That test now passes. *(Don't blindly accept — Copilot may
-"fix" by returning `0` silently, which masks a different bug. Read the diff!)*
+✅ **Expected:** Both total tests pass. Returning zero for an empty cart is the
+specified behavior, but an empty-cart special case alone leaves the ordinary
+cart incorrectly divided by its number of line items. Fix the shared cause.
 
 ### Step 3 — `/tests` for the untested function
 
@@ -90,8 +102,10 @@ and stackable vs non-stackable promos
 2. Click **Insert into New File** → save as `tests/test_promos.py`.
 3. Run `pytest tests/test_promos.py -v`.
 
-✅ **Expected:** Most tests pass. **At least one will fail** — that's a real bug
-in `apply_promo_code`. Use `/fix` on the production code to address it.
+✅ **Expected:** Contract-based tests expose the reversed expiry comparison:
+future-dated codes are rejected while an expired code is accepted. Which tests
+fail depends on the cases generated. Confirm each expected result against the
+rules before changing production code.
 
 ### Step 4 — `/doc` adds docstrings
 
@@ -128,8 +142,9 @@ its callers, citing file paths.
    the trade-offs."*
 3. Ask: *"What edge cases am I missing in apply_promo_code?"* Then write tests
    for the ones you agree with.
-4. Highlight a chunk of code and use `/simplify` (a "freeform" slash — Chat
-   accepts arbitrary commands). Compare results to `/optimize`.
+4. Highlight a chunk of code and ask "Simplify this without changing behavior."
+   Compare it with "Optimize this and explain the trade-offs." Use ordinary
+   text unless your `/` picker actually lists those commands.
 
 ## Talking points
 - Chat shines on **existing code** (read/understand/fix); completions shine on
@@ -141,5 +156,5 @@ its callers, citing file paths.
   retrieval is keyword + embedding-based.
 
 ## Next demo →
-[Demo 03 — Todo API in TypeScript](../ghcp-demo-03-todo-api-ts) — multi-file
+[Demo 03 — Todo API in TypeScript](https://github.com/xavierxmorris/ghcp-demo-03-todo-api-ts) — multi-file
 scaffolding with Copilot Chat.
